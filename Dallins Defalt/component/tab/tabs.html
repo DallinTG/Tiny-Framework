@@ -1,0 +1,60 @@
+
+<script defer>on_comp_lode(this, comp)</script>
+<link rel="stylesheet" href="css\styles_dallins_defaults.css" />
+<link rel="stylesheet" href="css\styles_dallins_defaults_md.css" />
+<link rel="stylesheet" href="css\styles_dallins_defaults_lg.css" />
+<link rel="stylesheet" href="css\styles.css" />
+
+<section class="#{maine_classes}">
+    <menu id="tabs_box" class="box $display-flex $m-1 #{menu_classes}">
+
+    </menu>
+    <div id="tabs_info" class="box $m-1 #{info_classes}">
+
+    </div>
+</section>
+
+
+
+
+<script>
+    {
+        let this_comp = comp
+        let this_comp_host = comp_host
+        let this_comp_data = comp_data
+        let last_tab_id
+        console.log(this_comp_data.tab_info);
+        function swop_tab(tab_id) {
+            if (last_tab_id != tab_id) {
+                if (this_comp_data.tab_info[tab_id].component == "" ) {
+                    last_tab_id = tab_id
+                    append_comp_string(this_comp.querySelector("#tabs_info"),
+                    `
+                    <h1>
+                        ${hash}{title}
+                    </h1>
+                    <p>
+                        ${hash}{p}
+                    </p>
+
+                    `
+                    ,1,false,true, this_comp_data.tab_info[tab_id])
+                }else{
+                    append_comp(this_comp.querySelector("#tabs_info"),
+                        this_comp_data.tab_info[tab_id].component,1, true, true, this_comp_data.tab_info[tab_id])
+                    last_tab_id = tab_id
+                }
+            }
+        }
+        for (const [key, value] of Object.entries(this_comp_data.tab_info)) {
+            add_comp_string(
+                this_comp.querySelector("#tabs_box"),
+                `
+                <button class="btn" onclick="swop_tab('${hash}{tab_id}')">${hash}{tab_name}</button>
+                `
+                , false, false, value
+            );
+        }
+    swop_tab(this_comp_data.tab_info[Object.keys(this_comp_data.tab_info)[0]].tab_id)
+    }
+</script>
